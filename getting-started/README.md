@@ -1,6 +1,8 @@
 # source
 https://quarkus.io/guides/getting-started
-
+https://quarkus.io/guides/config
+https://quarkus.io/guides/all-config
+https://quarkus.io/guides/consul-config
 # getting-started project
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.

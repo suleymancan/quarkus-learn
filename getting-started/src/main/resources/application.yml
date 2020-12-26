@@ -1,0 +1,30 @@
+#test:
+#  name: za
+#  value: xd
+#
+#greeting:
+#  message: hello
+quarkus:
+  application:
+    name: getting-started
+    version: 1
+  consul-config:
+    enabled: true
+    properties-value-keys: config/${quarkus.application.name}
+
+
+"%dev":
+  quarkus:
+    http:
+      port: 8181
+
+# mvn -Dquarkus-profile=stage compile quarkus:dev
+"%stage":
+  quarkus:
+    http:
+      port: 8080
+
+"%prod":
+  quarkus:
+    http:
+      port: 8181
