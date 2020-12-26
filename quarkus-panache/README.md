@@ -1,3 +1,7 @@
+# resource
+https://quarkus.io/guides/hibernate-orm-panache
+https://quarkus.io/guides/rest-data-panache
+
 # quarkus-panache project
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
