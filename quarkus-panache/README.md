@@ -1,6 +1,7 @@
 # resource
 https://quarkus.io/guides/hibernate-orm-panache
 https://quarkus.io/guides/rest-data-panache
+https://quarkus.io/guides/microprofile-fault-tolerance
 
 # quarkus-panache project
 

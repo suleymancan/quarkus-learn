@@ -1,6 +1,8 @@
 package org.acme.panache.record_pattern;
 
+import org.acme.panache.LoggingFilter;
 import org.acme.panache.PageableDto;
+import org.jboss.logging.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,6 +12,7 @@ import java.net.URISyntaxException;
 
 @Path("/persons")
 public class PersonResource {
+    private static final Logger LOGGER = Logger.getLogger(PersonResource.class);
 
     private final PersonService personService;
 
@@ -30,10 +33,20 @@ public class PersonResource {
     @Path("/pageable")
     @Produces(MediaType.APPLICATION_JSON)
     public Response pageable(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize) {
-        final PageableDto<Person> pageable = personService.getPageable(page, pageSize);
-        return Response.ok(pageable.getResource())
-                .header("count", pageable.getCount())
-                .header("totalPage", pageable.getTotalPage()).build();
+        try {
+            final PageableDto<Person> pageable = personService.getPageable(page, pageSize);
+            LOGGER.infof("getPageable() invocation returning successfully");
+            return Response.ok(pageable.getResource())
+                    .header("count", pageable.getCount())
+                    .header("totalPage", pageable.getTotalPage()).build();
+        } catch (RuntimeException e) {
+            final String message = e.getClass().getSimpleName() + ": " + e.getMessage();
+            LOGGER.errorf("getPageable() invocation failed: %s", message);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(message)
+                    .type(MediaType.TEXT_PLAIN_TYPE)
+                    .build();
+        }
     }
 
     @GET

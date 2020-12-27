@@ -22,10 +22,10 @@ public class LoggingFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext context) {
-        final String auth = request.getHeader("auth");
+    /*    final String auth = request.getHeader("auth");
         if (auth == null || !auth.equals("auth")) {
             throw new UnauthorizedException();
-        }
+        }*/
 
         final String method = context.getMethod();
         final String path = info.getPath();
