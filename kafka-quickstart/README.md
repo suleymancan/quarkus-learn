@@ -1,5 +1,6 @@
 # resource
 https://quarkus.io/guides/kafka
+https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/2.7/kafka/kafka.html
 
 # kafka-quickstart project
 

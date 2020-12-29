@@ -11,7 +11,7 @@ import java.util.Random;
 public class PriceGenerator {
     private final Random random = new Random();
 
-    @Outgoing("generated-price")
+    //@Outgoing("generated-price")
     public Multi<Integer> generate() {
         return Multi.createFrom().ticks().every(Duration.ofSeconds(5))
                 .onOverflow().drop()
