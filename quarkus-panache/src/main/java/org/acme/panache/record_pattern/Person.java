@@ -7,14 +7,18 @@ import org.acme.panache.PageableDto;
 import org.acme.panache.repository_pattern.Fruit;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 // resource: https://quarkus.io/guides/hibernate-orm-panache#solution-1-using-the-active-record-pattern
 @Entity
 public class Person extends PanacheEntity {
 
+    @NotBlank(message = "{test}")
     public String name;
 
+    @Min(message="age is min 1", value=0)
     public Integer age;
 
     public Person() {

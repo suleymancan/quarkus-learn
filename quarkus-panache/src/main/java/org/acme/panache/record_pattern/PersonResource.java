@@ -4,6 +4,7 @@ import org.acme.panache.LoggingFilter;
 import org.acme.panache.PageableDto;
 import org.jboss.logging.Logger;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -58,7 +59,7 @@ public class PersonResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response save(Person person) throws URISyntaxException {
+    public Response save(@Valid Person person) throws URISyntaxException {
         final Long id = personService.save(person);
         return Response.created(new URI("persons/" + id)).build();
     }

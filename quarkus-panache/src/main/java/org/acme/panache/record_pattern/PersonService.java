@@ -1,11 +1,13 @@
 package org.acme.panache.record_pattern;
 
 
-import org.acme.panache.LoggingFilter;
+import io.quarkus.qute.i18n.Localized;
+import io.quarkus.qute.i18n.MessageBundles;
+import org.acme.exception.AppMessages;
+import org.acme.exception.BusinessException;
 import org.acme.panache.PageableDto;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
-import org.eclipse.microprofile.faulttolerance.Retry;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +25,7 @@ import java.util.stream.IntStream;
 public class PersonService {
     private static final Logger LOGGER = Logger.getLogger(PersonService.class);
     private AtomicLong counter = new AtomicLong(0);
+
     @PostConstruct
     @Transactional
     public void init() {
@@ -58,8 +61,11 @@ public class PersonService {
     }
 
     //@Retry(maxRetries = 4)
-    @Fallback(fallbackMethod = "fallbackGetById")
+    //@Fallback(fallbackMethod = "fallbackGetById")
     public Person getById(Long id) {
+        if(id > 500){
+            throw new BusinessException("GenericError", MessageBundles.get(AppMessages.class, Localized.Literal.of("en")).genericError());
+        }
         final Optional<Person> byIdOptional = Person.findByIdOptional(id);
         maybeFail();
         return byIdOptional.orElseThrow(NotFoundException::new);

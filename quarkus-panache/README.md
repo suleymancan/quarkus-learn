@@ -2,6 +2,11 @@
 https://quarkus.io/guides/hibernate-orm-panache
 https://quarkus.io/guides/rest-data-panache
 https://quarkus.io/guides/microprofile-fault-tolerance
+https://quarkus.io/guides/qute-reference
+https://quarkus.io/guides/validation
+https://howtodoinjava.com/resteasy/resteasy-exceptionmapper-example/
+https://github.com/quarkusio/quarkus/issues/7665    
+https://github.com/irenakezic/quarkus/commit/a9b7bf51c85c3bc5f51c6412dca6693be11dad17
 
 # quarkus-panache project
 
