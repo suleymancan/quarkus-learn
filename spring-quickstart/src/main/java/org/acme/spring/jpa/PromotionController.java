@@ -2,6 +2,7 @@ package org.acme.spring.jpa;
 
 
 import io.quarkus.runtime.Startup;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +16,10 @@ import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/promotions")
+@RequiredArgsConstructor
 public class PromotionController {
 
     private final PromotionRepository promotionRepository;
-
-    public PromotionController(PromotionRepository promotionRepository) {
-        this.promotionRepository = promotionRepository;
-    }
 
     @GetMapping
     public ResponseEntity<List<Promotion>> getAll(){
