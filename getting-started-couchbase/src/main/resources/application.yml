@@ -1,0 +1,8 @@
+couchbase:
+  urls:
+    - 10.2.80.33
+    - 10.2.80.34
+    - 10.2.80.35
+  bucket: PromotionStartEndDateEvent
+  username: PromotionStartEndDateEvent
+  password: 123456
