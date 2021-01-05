@@ -21,6 +21,7 @@ public class Person extends PanacheEntity {
     @Min(message="age is min 1", value=0)
     public Integer age;
 
+
     public Person() {
     }
 

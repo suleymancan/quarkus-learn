@@ -35,7 +35,8 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response pageable(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize) {
         try {
-            final PageableDto<Person> pageable = personService.getPageable(page, pageSize);
+            final PageableDto<Person> pageable = personService.
+                    getPageable(page, pageSize);
             LOGGER.infof("getPageable() invocation returning successfully");
             return Response.ok(pageable.getResource())
                     .header("count", pageable.getCount())

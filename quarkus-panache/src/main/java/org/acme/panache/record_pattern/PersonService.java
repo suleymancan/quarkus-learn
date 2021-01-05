@@ -8,6 +8,7 @@ import org.acme.exception.BusinessException;
 import org.acme.panache.PageableDto;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -40,15 +41,24 @@ public class PersonService {
 
 
     public List<Person> getAll() {
-        this.maybeFailCircuitBreaker();
         return Person.listAll();
     }
+    //CircuitBreaker.failureRatio is by default 0.5, and CircuitBreaker.delay is by default 5 seconds.
+    //That means that a circuit breaker will open when 2 of the last 4 invocations failed and it will stay open for 5 seconds.
     @CircuitBreaker(requestVolumeThreshold = 4)
-    //@Fallback(fallbackMethod = "fallbackGetPageable")
+    @Fallback(fallbackMethod = "fallbackGetPageable")
     public PageableDto<Person> getPageable(int page, int pageSize) {
         maybeFailCircuitBreaker();
         LOGGER.info("getPageable working");
         return Person.getPageable(page, pageSize);
+    }
+
+
+    private void maybeFailCircuitBreaker() {
+        final Long invocationNumber = counter.getAndIncrement();
+        if (invocationNumber % 4 > 1) { // alternate 2 successful and 2 failing invocations
+            throw new RuntimeException("Service failed.");
+        }
     }
 
     public PageableDto<Person> fallbackGetPageable(int page, int pageSize){
@@ -60,9 +70,10 @@ public class PersonService {
         return Person.getByAge(age);
     }
 
-    //@Retry(maxRetries = 4)
-    //@Fallback(fallbackMethod = "fallbackGetById")
+    @Retry(maxRetries = 4)
+    @Fallback(fallbackMethod = "fallbackGetById")
     public Person getById(Long id) {
+        LOGGER.info("getById called");
         if(id > 500){
             throw new BusinessException("GenericError", MessageBundles.get(AppMessages.class, Localized.Literal.of("en")).genericError());
         }
@@ -83,12 +94,6 @@ public class PersonService {
         }
     }
 
-    private void maybeFailCircuitBreaker() {
-        final Long invocationNumber = counter.getAndIncrement();
-        if (invocationNumber % 4 > 1) { // alternate 2 successful and 2 failing invocations
-            throw new RuntimeException("Service failed.");
-        }
-    }
 
     @Transactional
     public void update(Long id, Person newPerson) {

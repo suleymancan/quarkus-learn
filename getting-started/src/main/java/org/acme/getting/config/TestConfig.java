@@ -3,6 +3,7 @@ package org.acme.getting.config;
 import io.quarkus.arc.config.ConfigProperties;
 
 @ConfigProperties(prefix = "test")
+
 public class TestConfig {
 
     private String name;
